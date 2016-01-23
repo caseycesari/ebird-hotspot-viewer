@@ -4,7 +4,7 @@
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _react = require("react");
@@ -20,42 +20,40 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var propTypes = {
-  comName: _react.PropTypes.string,
-  howMany: _react.PropTypes.number
+    locID: _react.PropTypes.string,
+    locName: _react.PropTypes.string
 };
 
-var Sighting = function (_Component) {
-  _inherits(Sighting, _Component);
+var Hotspot = function (_Component) {
+    _inherits(Hotspot, _Component);
 
-  function Sighting() {
-    _classCallCheck(this, Sighting);
+    function Hotspot() {
+        _classCallCheck(this, Hotspot);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sighting).apply(this, arguments));
-  }
-
-  _createClass(Sighting, [{
-    key: "render",
-    value: function render() {
-      return _react2.default.createElement(
-        "div",
-        { className: "sighting" },
-        _react2.default.createElement(
-          "span",
-          null,
-          this.props.comName,
-          ", ",
-          this.props.howMany
-        )
-      );
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Hotspot).apply(this, arguments));
     }
-  }]);
 
-  return Sighting;
+    _createClass(Hotspot, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "li",
+                { className: "list-group-item" },
+                _react2.default.createElement(
+                    "span",
+                    null,
+                    this.props.locName
+                )
+            );
+        }
+    }]);
+
+    return Hotspot;
 }(_react.Component);
 
-exports.default = Sighting;
+exports.default = Hotspot;
 
-Sighting.propTypes = propTypes;
+Hotspot.propTypes = propTypes;
 
 },{"react":162}],2:[function(require,module,exports){
 'use strict';
@@ -63,16 +61,16 @@ Sighting.propTypes = propTypes;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _SightingsList = require('./SightingsList.js');
+var _Hotspot = require('./Hotspot.js');
 
-var _SightingsList2 = _interopRequireDefault(_SightingsList);
+var _Hotspot2 = _interopRequireDefault(_Hotspot);
 
 var _jquery = require('jquery');
 
@@ -87,73 +85,99 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var propTypes = {
-  url: _react.PropTypes.string
+    url: _react.PropTypes.string
 };
 
-var SightingsBox = function (_Component) {
-  _inherits(SightingsBox, _Component);
+var HotspotList = function (_Component) {
+    _inherits(HotspotList, _Component);
 
-  function SightingsBox(props) {
-    _classCallCheck(this, SightingsBox);
+    function HotspotList(props) {
+        _classCallCheck(this, HotspotList);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SightingsBox).call(this, props));
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HotspotList).call(this, props));
 
-    _this.state = { data: [] };
-    return _this;
-  }
+        _this.state = {
+            hotspots: []
+        };
+        return _this;
+    }
 
-  _createClass(SightingsBox, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
+    _createClass(HotspotList, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
 
-      _jquery2.default.ajax({
-        url: this.props.url,
-        dataType: 'json',
-        cache: false,
-        success: function success(data) {
-          _this2.setState({ data: data });
-        },
-        error: function error(xhr, status, err) {
-          console.error(_this2.props.url, status, err.toString());
+            if (this.props.lat && this.props.lng) {
+                _jquery2.default.ajax({
+                    url: 'http://ebird.org/ws1.1/ref/hotspot/geo?lat=' + this.props.lat + '&lng=' + this.props.lng + '&fmt=json',
+                    dataType: 'json',
+                    cache: false,
+                    success: function success(data) {
+                        _this2.setState({ hotspots: data });
+                    },
+                    error: function error(xhr, status, err) {
+                        console.error(status, err.toString());
+                    }
+                });
+            }
         }
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'sightings-box' },
-        'Hello, world! I am a SightingsBox.',
-        _react2.default.createElement(_SightingsList2.default, { data: this.state.data })
-      );
-    }
-  }]);
+    }, {
+        key: 'render',
+        value: function render() {
+            var content = _react2.default.createElement(
+                'div',
+                null,
+                'Fetching recent sightings...'
+            );
 
-  return SightingsBox;
+            if (this.state.hotspots) {
+                var hotspots = this.state.hotspots.map(function (h) {
+                    return _react2.default.createElement(_Hotspot2.default, { key: h.locID, locID: h.locID, locName: h.locName });
+                });
+
+                content = _react2.default.createElement(
+                    'ul',
+                    { className: 'list-group' },
+                    hotspots
+                );
+            }
+
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(
+                    'strong',
+                    null,
+                    'Nearby hotspots'
+                ),
+                content
+            );
+        }
+    }]);
+
+    return HotspotList;
 }(_react.Component);
 
-exports.default = SightingsBox;
+exports.default = HotspotList;
 
-SightingsBox.propTypes = propTypes;
+HotspotList.propTypes = propTypes;
 
-},{"./SightingsList.js":3,"jquery":5,"react":162}],3:[function(require,module,exports){
+},{"./Hotspot.js":1,"jquery":5,"react":162}],3:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Sighting = require('./Sighting.js');
+var _HotspotList = require('./HotspotList.js');
 
-var _Sighting2 = _interopRequireDefault(_Sighting);
+var _HotspotList2 = _interopRequireDefault(_HotspotList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -163,43 +187,61 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var propTypes = {
-  data: _react.PropTypes.array
-};
+var HotspotViewer = function (_Component) {
+    _inherits(HotspotViewer, _Component);
 
-var SightingsList = function (_Component) {
-  _inherits(SightingsList, _Component);
+    function HotspotViewer(props) {
+        _classCallCheck(this, HotspotViewer);
 
-  function SightingsList() {
-    _classCallCheck(this, SightingsList);
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(HotspotViewer).call(this, props));
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SightingsList).apply(this, arguments));
-  }
-
-  _createClass(SightingsList, [{
-    key: 'render',
-    value: function render() {
-      var sightings = this.props.data.map(function (s) {
-        return _react2.default.createElement(_Sighting2.default, { comName: s.comName, howMany: s.howMany });
-      });
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'sightings-list' },
-        'Sightings list',
-        sightings
-      );
+        _this.state = {
+            lat: undefined,
+            lng: undefined
+        };
+        return _this;
     }
-  }]);
 
-  return SightingsList;
+    _createClass(HotspotViewer, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            navigator.geolocation.getCurrentPosition(function (pos) {
+                _this2.setState({
+                    lat: pos.coords.latitude,
+                    lng: pos.coords.longitude
+                });
+            }, function (err) {
+                console.log(err);
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var content = _react2.default.createElement(
+                'div',
+                null,
+                'Fetching nearby hotspots...'
+            );
+            if (this.state.lat) {
+                content = _react2.default.createElement(_HotspotList2.default, { lat: this.state.lat, lng: this.state.lng });
+            }
+
+            return _react2.default.createElement(
+                'div',
+                { className: 'hotspot-list row' },
+                content
+            );
+        }
+    }]);
+
+    return HotspotViewer;
 }(_react.Component);
 
-exports.default = SightingsList;
+exports.default = HotspotViewer;
 
-SightingsList.propTypes = propTypes;
-
-},{"./Sighting.js":1,"react":162}],4:[function(require,module,exports){
+},{"./HotspotList.js":2,"react":162}],4:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -210,15 +252,15 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _SightingsBox = require('./components/SightingsBox.js');
+var _HotspotViewer = require('./components/HotspotViewer.js');
 
-var _SightingsBox2 = _interopRequireDefault(_SightingsBox);
+var _HotspotViewer2 = _interopRequireDefault(_HotspotViewer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom2.default.render(_react2.default.createElement(_SightingsBox2.default, { url: "http://ebird.org/ws1.1/data/obs/hotspot/recent?r=L504403&fmt=json" }), document.getElementById('example'));
+_reactDom2.default.render(_react2.default.createElement(_HotspotViewer2.default, null), document.getElementById('app'));
 
-},{"./components/SightingsBox.js":2,"react":162,"react-dom":6}],5:[function(require,module,exports){
+},{"./components/HotspotViewer.js":3,"react":162,"react-dom":6}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.0
  * http://jquery.com/
