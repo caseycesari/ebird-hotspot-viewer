@@ -3,7 +3,9 @@ import Hotspot from './Hotspot.js';
 import $ from 'jquery';
 
 const propTypes = {
-    url: PropTypes.string,
+    lat: PropTypes.number,
+    lng: PropTypes.number,
+    dist: PropTypes.number,
 };
 
 export default class HotspotList extends Component {
@@ -17,7 +19,8 @@ export default class HotspotList extends Component {
     componentDidMount() {
         if (this.props.lat && this.props.lng) {
             $.ajax({
-                url: `http://ebird.org/ws1.1/ref/hotspot/geo?lat=${this.props.lat}&lng=${this.props.lng}&fmt=json`,
+                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=
+                      ${this.props.dist}&lat=${this.props.lat}&lng=${this.props.lng}&fmt=json`,
                 dataType: 'json',
                 cache: false,
                 success: data => {
@@ -30,23 +33,25 @@ export default class HotspotList extends Component {
         }
     }
 
+    selectHotspot(locID) {
+        console.log(locID);
+    }
+
     render() {
-        let content = <div>Fetching recent sightings...</div>;
-
-        if (this.state.hotspots) {
-            const hotspots = this.state.hotspots.map(h => {
-                return (
-                    <Hotspot key={h.locID} locID={h.locID} locName={h.locName} />
-                );
-            });
-
-            content = <ul className="list-group">{hotspots}</ul>;
-        }
+        const hotspots = this.state.hotspots.map(h => {
+            return (
+                <Hotspot
+                    key={h.locID}
+                    locID={h.locID}
+                    locName={h.locName}
+                    selectHotspot={this.selectHotspot}
+                />
+            );
+        });
 
         return (
             <div>
-                <strong>Nearby hotspots</strong>
-                {content}
+                <ul className="list-group">{hotspots}</ul>;
             </div>
         );
     }

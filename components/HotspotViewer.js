@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import HotspotList from './HotspotList.js';
+import Loading from './Loading.js';
 
 export default class HotspotViewer extends Component {
     constructor(props) {
@@ -22,9 +23,10 @@ export default class HotspotViewer extends Component {
     }
 
     render() {
-        let content = <div>Fetching nearby hotspots...</div>;
+        let content = <Loading message={'Loading nearby hotspots...'}/>;
+
         if (this.state.lat) {
-            content = <HotspotList lat={this.state.lat} lng={this.state.lng} />;
+            content = <HotspotList dist={10} lat={this.state.lat} lng={this.state.lng} />;
         }
 
         return (
