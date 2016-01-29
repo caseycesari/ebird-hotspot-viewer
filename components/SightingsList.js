@@ -1,25 +1,44 @@
 import React, { Component, PropTypes } from 'react';
 import Sighting from './Sighting.js';
+import $ from 'jquery';
 
 const propTypes = {
-  data: PropTypes.array,
+    data: PropTypes.array,
 };
 
 export default class SightingsList extends Component {
-  render() {
-    const sightings = this.props.data.map(s => {
-      return (
-        <Sighting comName={s.comName} howMany={s.howMany} />
-      );
-    });
+    constructor(props) {
+        super(props);
+        this.state = { data: [] };
+    }
 
-    return (
-      <div className="sightings-list">
-        Sightings list
-        {sightings}
-      </div>
-    );
-  }
+    componentDidMount() {
+        $.ajax({
+            url: `http://ebird.org/ws1.1/data/obs/hotspot/recent?r=${this.props.locId}&fmt=json`,
+            dataType: 'json',
+            cache: false,
+            success: data => {
+                this.setState({data: data});
+            },
+            error: (xhr, status, err) => {
+                console.error(this.props.url, status, err.toString());
+            },
+        });
+    }
+
+    render() {
+        const sightings = this.state.data.map(s => {
+            return (
+                <Sighting comName={s.comName} howMany={s.howMany} />
+            );
+        });
+
+        return (
+            <div>
+                {sightings}
+            </div>
+        );
+    }
 }
 
 SightingsList.propTypes = propTypes;

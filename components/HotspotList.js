@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Hotspot from './Hotspot.js';
+import SightingsList from './SightingsList.js';
 import $ from 'jquery';
 
 const propTypes = {
@@ -13,7 +14,11 @@ export default class HotspotList extends Component {
         super(props);
         this.state = {
             hotspots: [],
+            selectedHotspot: undefined,
         };
+
+
+        this.selectHotspot = this.selectHotspot.bind(this);
     }
 
     componentDidMount() {
@@ -34,24 +39,30 @@ export default class HotspotList extends Component {
     }
 
     selectHotspot(locID) {
-        console.log(locID);
+        this.setState({ selectedHotspot: locID });
     }
 
     render() {
-        const hotspots = this.state.hotspots.map(h => {
-            return (
-                <Hotspot
-                    key={h.locID}
-                    locID={h.locID}
-                    locName={h.locName}
-                    selectHotspot={this.selectHotspot}
-                />
-            );
-        });
+        let content;
+
+        if (this.state.selectedHotspot) {
+            content = <SightingsList locId={this.state.selectedHotspot} />;
+        } else {
+            content = this.state.hotspots.map(h => {
+                return (
+                    <Hotspot
+                        key={h.locID}
+                        locID={h.locID}
+                        locName={h.locName}
+                        selectHotspot={this.selectHotspot}
+                    />
+                );
+            });
+        }
 
         return (
             <div>
-                <ul className="list-group">{hotspots}</ul>;
+                <ul className="list-group">{content}</ul>
             </div>
         );
     }
