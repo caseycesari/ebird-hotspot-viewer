@@ -1,15 +1,16 @@
 {
+    "parser": "babel-eslint",
     "extends": "airbnb",
     "env": {
         "browser": true,
         "node": true,
-        "mocha": true
+        "mocha": true,
+        "es6": true,
     },
     "plugins": [
         "react"
     ],
     "rules":{
-        "no-console": 0,
         "indent": [2, 4, { "SwitchCase": 2, "VariableDeclarator": 2 }],
     }
 }
