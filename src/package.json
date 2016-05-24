@@ -10,14 +10,18 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^3.1.0",
     "eslint-plugin-react": "^3.15.0",
+    "fbemitter": "^2.0.2",
+    "flux": "^2.1.1",
     "jquery": "^2.2.0",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "object-assign": "^4.0.1",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-router": "^2.4.1"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "browserify -t [ babelify --presets [ react es2015 ] ] main.js -o bundle.js"
+    "bundle": "browserify -t [ babelify --presets [ react es2015 ] ] js/app.js -o bundle.js"
   },
   "author": "",
   "license": "Apache 2"
