@@ -5,6 +5,7 @@ module.exports = {
         filename: 'bundle.js',
         publicPath: '/static/',
     },
+    devtool: 'source-map',
     module: {
         loaders: [{
             test: /\.js?$/,
