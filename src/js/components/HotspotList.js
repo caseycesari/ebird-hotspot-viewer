@@ -23,11 +23,11 @@ export default class HotspotList extends Component {
 
         this.state = getState();
 
-        this._onChange = this._onChange.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
-        Store.addChangeListener(this._onChange);
+        Store.addChangeListener(this.onChange);
 
         if ((this.props.lat && this.props.lng) &&
             (!this.state.hotspots || this.state.hotspots.length === 0)) {
@@ -39,17 +39,17 @@ export default class HotspotList extends Component {
                     Actions.setHotspotList(data);
                 },
                 error: (xhr, status, err) => {
-                    console.error(status, err.toString());
+                    window.console.error(status, err.toString());
                 },
             });
         }
     }
 
     componentWillUnmount() {
-        Store.removeChangeListener(this._onChange);
+        Store.removeChangeListener(this.onChange);
     }
 
-    _onChange() {
+    onChange() {
         this.setState(getState());
     }
 
@@ -57,21 +57,19 @@ export default class HotspotList extends Component {
         let content;
 
         if (this.state.hotspots) {
-            content = this.state.hotspots.map(h => {
-                return (
-                    <Hotspot
-                      key={h.locID}
-                      hotspotId={h.locID}
-                      locName={h.locName}
-                    />
-                );
-            });
+            content = this.state.hotspots.map(h =>
+              <Hotspot
+                key={h.locID}
+                hotspotId={h.locID}
+                locName={h.locName}
+              />
+            );
         }
 
         return (
-            <div>
-                <ul className="list-group">{content}</ul>
-            </div>
+          <div>
+            <ul className="list-group">{content}</ul>
+          </div>
         );
     }
 }

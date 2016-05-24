@@ -6,8 +6,8 @@ import SightingsList from './components/SightingsList.js';
 import { Router, Route, hashHistory } from 'react-router';
 
 ReactDOM.render((
-    <Router history={hashHistory}>
-        <Route path="/hotspots" component={HotspotViewer} />
-        <Route path="/hotspot/:hotspotId" component={SightingsList} />
-    </Router>
+  <Router history={hashHistory}>
+    <Route path="/hotspots" component={HotspotViewer} />
+    <Route path="/hotspot/:hotspotId" component={SightingsList} />
+  </Router>
  ), document.getElementById('app'));

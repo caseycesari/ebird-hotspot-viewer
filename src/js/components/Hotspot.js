@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 const propTypes = {
@@ -6,16 +6,14 @@ const propTypes = {
     locName: PropTypes.string,
 };
 
-export default class Hotspot extends Component {
-    render() {
-        return (
-            <li className="list-group-item">
-                <Link to={`hotspot/${this.props.hotspotId}`}>
-                    {this.props.locName}
-                </Link>
-            </li>
-        );
-    }
+export default function Hotspot(props) {
+    return (
+      <li className="list-group-item">
+        <Link to={`hotspot/${props.hotspotId}`}>
+          {props.locName}
+        </Link>
+      </li>
+    );
 }
 
 Hotspot.propTypes = propTypes;

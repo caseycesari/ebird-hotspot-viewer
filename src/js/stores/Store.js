@@ -3,44 +3,44 @@ import EventEmitter from 'events';
 import assign from 'object-assign';
 import { Constants } from '../constants/Constants';
 
-let _location = null;
-let _hotspotId = null;
-let _hotspotList = [];
-let _sightingsList = [];
+let location = null;
+let hotspotId = null;
+let hotspotList = [];
+let sightingsList = [];
 
 const CHANGE_EVENT = 'change';
 
-function setLocation(location) {
-    _location = location;
+function setLocation(updatedLocation) {
+    location = updatedLocation;
 }
 
-function setHotspot(hotspotId) {
-    _hotspotId = hotspotId;
+function setHotspot(updatedHotspotId) {
+    hotspotId = updatedHotspotId;
 }
 
-function setHotspotList(hotspotList) {
-    _hotspotList = hotspotList;
+function setHotspotList(updatedHotspotList) {
+    hotspotList = updatedHotspotList;
 }
 
-function setSightingsList(sightingsList) {
-    _sightingsList = sightingsList;
+function setSightingsList(updatedSightingsList) {
+    sightingsList = updatedSightingsList;
 }
 
 export const Store = assign({}, EventEmitter.prototype, {
     getLocation() {
-        return _location;
+        return location;
     },
 
     getHotspotId() {
-        return _hotspotId;
+        return hotspotId;
     },
 
     getHotspotList() {
-        return _hotspotList;
+        return hotspotList;
     },
 
     getSightingsList() {
-        return _sightingsList;
+        return sightingsList;
     },
 
     emitChange() {

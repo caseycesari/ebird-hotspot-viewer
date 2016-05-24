@@ -1,18 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 const propTypes = {
     comName: PropTypes.string,
     howMany: PropTypes.number,
 };
 
-export default class Sighting extends Component {
-    render() {
-        return (
-            <li className="list-group-item">
-                <span>{this.props.comName}, {this.props.howMany}</span>
-            </li>
-        );
-    }
+export default function Sighting(props) {
+    return (
+      <li className="list-group-item">
+        <span>{props.comName}, {props.howMany}</span>
+      </li>
+    );
 }
 
 Sighting.propTypes = propTypes;
