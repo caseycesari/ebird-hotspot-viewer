@@ -1,9 +1,14 @@
-import React, { Component } from 'react';
-import HotspotList from './HotspotList.js';
-import Loading from './Loading.js';
+import React, { Component, PropTypes } from 'react';
 
 import { Actions } from '../actions/Actions';
 import { Store } from '../stores/Store';
+import Header from './Header.js';
+import Loading from './Loading.js';
+
+const propTypes = {
+    children: PropTypes.object,
+};
+
 
 function getState() {
     return {
@@ -11,7 +16,7 @@ function getState() {
     };
 }
 
-export default class HotspotViewer extends Component {
+export default class App extends Component {
     constructor() {
         super();
 
@@ -42,27 +47,21 @@ export default class HotspotViewer extends Component {
     onChange() {
         this.setState(getState());
     }
-
     render() {
-        let content = <Loading message={'Loading nearby hotspots...'} />;
+        let content = <Loading message={'Getting your location...'} />;
 
-        if (this.state.location || this.state.hotspotId) {
-            content = (
-              <HotspotList
-                hotspotId={this.state.hotspotId}
-                hotspots={this.state.hotspots}
-                sightings={this.state.sightings}
-                dist={10}
-                lat={this.state.location.lat}
-                lng={this.state.location.lng}
-              />
-            );
+        if (this.state.location) {
+            content = this.props.children;
         }
 
         return (
-          <div className="hotspot-list row">
+          <div>
+            <Header />
+            <h1>eBird Hotspot Viewer</h1>
             {content}
           </div>
         );
     }
 }
+
+App.propTypes = propTypes;

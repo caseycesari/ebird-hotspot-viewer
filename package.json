@@ -6,7 +6,7 @@
     "type": "git",
     "url": "http://www.github.com/caseypt/ebird-hotspot-viewer.git"
   },
-  "main": "./src/app.js",
+  "main": "./src/main.js",
   "dependencies": {
     "fbemitter": "^2.0.2",
     "flux": "^2.1.1",

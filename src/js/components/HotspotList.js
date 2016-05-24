@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import Hotspot from './Hotspot.js';
-import { Actions } from '../actions/Actions';
-
-import { Store } from '../stores/Store';
 import $ from 'jquery';
+
+import { Actions } from '../actions/Actions';
+import { Store } from '../stores/Store';
+import Hotspot from './Hotspot.js';
+import Loading from './Loading.js';
 
 function getState() {
     return {
         hotspots: Store.getHotspotList(),
+        location: Store.getLocation(),
     };
 }
 
@@ -29,10 +31,10 @@ export default class HotspotList extends Component {
     componentDidMount() {
         Store.addChangeListener(this.onChange);
 
-        if ((this.props.lat && this.props.lng) &&
+        if ((this.state.location.lat && this.state.location.lng) &&
             (!this.state.hotspots || this.state.hotspots.length === 0)) {
             $.ajax({
-                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=${this.props.dist}&lat=${this.props.lat}&lng=${this.props.lng}&fmt=json`,
+                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=${10}&lat=${this.state.location.lat}&lng=${this.state.location.lng}&fmt=json`,
                 dataType: 'json',
                 cache: false,
                 success: data => {
@@ -54,7 +56,7 @@ export default class HotspotList extends Component {
     }
 
     render() {
-        let content;
+        let content = <Loading message={'Loading nearby hotspots...'} />;
 
         if (this.state.hotspots) {
             content = this.state.hotspots.map(h =>
