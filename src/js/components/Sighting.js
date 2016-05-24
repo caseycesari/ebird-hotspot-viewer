@@ -1,15 +1,18 @@
 import React, { PropTypes } from 'react';
 
 const propTypes = {
+    obsDt: PropTypes.string,
     comName: PropTypes.string,
     howMany: PropTypes.number,
 };
 
 export default function Sighting(props) {
     return (
-      <li className="list-group-item">
-        <span>{props.comName}, {props.howMany}</span>
-      </li>
+      <tr>
+        <td>{props.obsDt}</td>
+        <td>{props.comName}</td>
+        <td>{props.howMany}</td>
+      </tr>
     );
 }
 

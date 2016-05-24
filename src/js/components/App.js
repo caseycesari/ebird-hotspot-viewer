@@ -57,8 +57,9 @@ export default class App extends Component {
         return (
           <div>
             <Header />
-            <h1>eBird Hotspot Viewer</h1>
-            {content}
+            <div className="container" role="main">
+              {content}
+            </div>
           </div>
         );
     }

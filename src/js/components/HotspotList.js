@@ -34,7 +34,7 @@ export default class HotspotList extends Component {
         if ((this.state.location.lat && this.state.location.lng) &&
             (!this.state.hotspots || this.state.hotspots.length === 0)) {
             $.ajax({
-                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=${10}&lat=${this.state.location.lat}&lng=${this.state.location.lng}&fmt=json`,
+                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=${10}&back=${14}&lat=${this.state.location.lat}&lng=${this.state.location.lng}&fmt=json`,
                 dataType: 'json',
                 cache: false,
                 success: data => {
@@ -58,7 +58,7 @@ export default class HotspotList extends Component {
     render() {
         let content = <Loading message={'Loading nearby hotspots...'} />;
 
-        if (this.state.hotspots) {
+        if (this.state.hotspots && this.state.hotspots.length !== 0) {
             content = this.state.hotspots.map(h =>
               <Hotspot
                 key={h.locID}
@@ -70,6 +70,7 @@ export default class HotspotList extends Component {
 
         return (
           <div>
+            <h3>Nearby hotspots</h3>
             <ul className="list-group">{content}</ul>
           </div>
         );

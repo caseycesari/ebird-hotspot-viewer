@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import Sighting from './Sighting.js';
-import { Actions } from '../actions/Actions';
 import { Link } from 'react-router';
-
-import { Store } from '../stores/Store';
 import $ from 'jquery';
+
+import { Actions } from '../actions/Actions';
+import { Store } from '../stores/Store';
+import Sighting from './Sighting.js';
+import Loading from './Loading';
 
 function getState() {
     return {
@@ -55,22 +56,41 @@ export default class SightingsList extends Component {
         Actions.setHotspotId(undefined);
     }
 
-
     render() {
-        let content = '';
+        let content = <Loading message={'Fetching recent observations...'} />;
+        let title = '';
+
         if (this.state.sightings) {
-            content = this.state.sightings.map(s =>
-              <Sighting key={Math.random()} comName={s.comName} howMany={s.howMany} />
+            title = this.state.sightings[0].locName;
+            let sightings = this.state.sightings.map(s =>
+              <Sighting
+                key={Math.random()}
+                obsDt={s.obsDt}
+                comName={s.comName}
+                howMany={s.howMany}
+              />
             );
+            content = (
+              <table className="table table-hover table-responsive">
+                <tbody>
+                  <tr>
+                    <th>Date</th>
+                    <th>Species</th>
+                    <th>Count</th>
+                  </tr>
+                  {sightings}
+                </tbody>
+              </table>
+            );
+        } else if (this.state.sightings && this.state.sightings.length === 0) {
+            content = <em>No recent sightings</em>;
         }
 
         return (
           <div>
             <Link to="/hotspots" onClick={this.setHotspotId}>&larr; Back to hotspot list</Link>
-            <div>
-              <strong>{this.props.params.hotspotId}</strong>
-            </div>
-              {content}
+            <h3>{title}</h3>
+            {content}
           </div>
         );
     }
