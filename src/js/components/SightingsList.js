@@ -6,6 +6,7 @@ import { Actions } from '../actions/Actions';
 import { Store } from '../stores/Store';
 import Sighting from './Sighting.js';
 import Loading from './Loading';
+import Map from './Map';
 
 function getState() {
     return {
@@ -70,17 +71,27 @@ export default class SightingsList extends Component {
                 howMany={s.howMany}
               />
             );
+            const position = [
+                this.state.sightings[0].lng,
+                this.state.sightings[0].lat,
+            ];
+
             content = (
-              <table className="table table-hover table-responsive">
-                <tbody>
-                  <tr>
-                    <th>Date</th>
-                    <th>Species</th>
-                    <th>Count</th>
-                  </tr>
-                  {sightings}
-                </tbody>
-              </table>
+              <div>
+                <div className="map-container">
+                  <Map position={position} />
+                </div>
+                <table className="table table-hover table-responsive">
+                  <tbody>
+                    <tr>
+                      <th>Date</th>
+                      <th>Species</th>
+                      <th>Count</th>
+                    </tr>
+                    {sightings}
+                  </tbody>
+                </table>
+              </div>
             );
         } else if (this.state.sightings && this.state.sightings.length === 0) {
             content = <em>No recent sightings</em>;
