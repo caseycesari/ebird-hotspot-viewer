@@ -90,6 +90,11 @@ export default class SightingsList extends Component {
           <div>
             <Link to="/hotspots" onClick={this.setHotspotId}>&larr; Back to hotspot list</Link>
             <h3>{title}</h3>
+            <h5>
+              <a href={`http://ebird.org/ebird/hotspot/${this.props.params.hotspotId}`} target="_blank">
+                View on eBird
+              </a>
+            </h5>
             {content}
           </div>
         );
