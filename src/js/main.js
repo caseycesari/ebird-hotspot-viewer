@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App.js';
 import Home from './components/Home.js';
+import About from './components/About.js';
 import HotspotList from './components/HotspotList.js';
 import SightingsList from './components/SightingsList.js';
 
@@ -16,6 +17,7 @@ ReactDOM.render((
       <IndexRoute component={Home} />
       <Route path="/hotspots" component={HotspotList} />
       <Route path="/hotspot/:hotspotId" component={SightingsList} />
+      <Route path="/about" component={About} />
     </Route>
   </Router>
  ), document.getElementById('app'));
