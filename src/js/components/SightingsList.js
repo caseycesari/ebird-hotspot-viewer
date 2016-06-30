@@ -7,6 +7,7 @@ import { Store } from '../stores/Store';
 import Sighting from './Sighting.js';
 import Loading from './Loading';
 import Map from './Map';
+import { BASE_API_URL } from '../constants/Constants';
 
 function getState() {
     return {
@@ -33,7 +34,7 @@ export default class SightingsList extends Component {
         Store.addChangeListener(this.onChange);
 
         $.ajax({
-            url: `http://ebird.org/ws1.1/data/obs/hotspot/recent?r=${this.props.params.hotspotId}&fmt=json`,
+            url: `${BASE_API_URL}data/obs/hotspot/recent?r=${this.props.params.hotspotId}&fmt=json`,
             dataType: 'json',
             cache: false,
             success: data => {

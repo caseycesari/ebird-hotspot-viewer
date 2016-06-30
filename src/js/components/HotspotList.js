@@ -5,6 +5,7 @@ import { Actions } from '../actions/Actions';
 import { Store } from '../stores/Store';
 import Hotspot from './Hotspot.js';
 import Loading from './Loading.js';
+import { BASE_API_URL } from '../constants/Constants';
 
 function getState() {
     return {
@@ -33,8 +34,13 @@ export default class HotspotList extends Component {
 
         if ((this.state.location.lat && this.state.location.lng) &&
             (!this.state.hotspots || this.state.hotspots.length === 0)) {
+            const lat = this.state.location.lat;
+            const lng = this.state.location.lng;
+            const url = `${BASE_API_URL}ref/hotspot/geo?` +
+                  `dist=${10}&back=${14}&lat=${lat}&lng=${lng}&fmt=json`;
+
             $.ajax({
-                url: `http://ebird.org/ws1.1/ref/hotspot/geo?dist=${10}&back=${14}&lat=${this.state.location.lat}&lng=${this.state.location.lng}&fmt=json`,
+                url,
                 dataType: 'json',
                 cache: false,
                 success: data => {
