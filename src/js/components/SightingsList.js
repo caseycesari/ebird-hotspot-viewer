@@ -7,7 +7,7 @@ import { Store } from '../stores/Store';
 import Sighting from './Sighting.js';
 import Loading from './Loading';
 import Map from './Map';
-import { BASE_API_URL } from '../constants/Constants';
+import { BASE_API_URL, EBIRD_API_KEY } from '../constants/Constants';
 
 function getState() {
     return {
@@ -34,9 +34,13 @@ export default class SightingsList extends Component {
         Store.addChangeListener(this.onChange);
 
         $.ajax({
-            url: `${BASE_API_URL}data/obs/hotspot/recent?r=${this.props.params.hotspotId}&fmt=json`,
+            url: `${BASE_API_URL}data/obs/` +
+                 `${this.props.params.hotspotId}/recent?includeProvisional=true`,
             dataType: 'json',
             cache: false,
+            headers: {
+                'X-eBirdApiToken': EBIRD_API_KEY,
+            },
             success: data => {
                 Actions.setSightingsList(data);
             },

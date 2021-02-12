@@ -5,7 +5,7 @@ import { Actions } from '../actions/Actions';
 import { Store } from '../stores/Store';
 import Hotspot from './Hotspot.js';
 import Loading from './Loading.js';
-import { BASE_API_URL } from '../constants/Constants';
+import { BASE_API_URL, EBIRD_API_KEY } from '../constants/Constants';
 
 function getState() {
     return {
@@ -42,6 +42,9 @@ export default class HotspotList extends Component {
             $.ajax({
                 url,
                 dataType: 'json',
+                headers: {
+                    'X-eBirdApiToken': EBIRD_API_KEY,
+                },
                 cache: false,
                 success: data => {
                     Actions.setHotspotList(data);
