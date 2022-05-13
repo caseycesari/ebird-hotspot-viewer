@@ -70,8 +70,8 @@ export default class HotspotList extends Component {
         if (this.state.hotspots && this.state.hotspots.length !== 0) {
             content = this.state.hotspots.map(h =>
               <Hotspot
-                key={h.locID}
-                hotspotId={h.locID}
+                key={h.locId}
+                hotspotId={h.locId}
                 locName={h.locName}
               />
             );
